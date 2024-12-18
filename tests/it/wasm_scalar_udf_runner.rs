@@ -7,8 +7,8 @@ use itertools::Itertools;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use tracing::log::Record;
-use cellgen_query::wasm::runner::runner_base::WasmUdfRunner;
-use cellgen_query::wasm::runner::scalar_udf_runner::{WasmArrowScalarUdfRunner, WasmScalarUdfRunner};
+use cellgen_wasm_core::runner::runner_base::WasmUdfRunner;
+use cellgen_wasm_core::runner::scalar_udf_runner::{WasmArrowScalarUdfRunner, WasmScalarUdfRunner};
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 1)]
 async fn test_wasm_scalar_udf_runner() {
@@ -16,7 +16,7 @@ async fn test_wasm_scalar_udf_runner() {
     let expected_concat_result_batch = create_concat_expect_data();
 
     let root_path = format!(
-        "{}/../../data",
+        "{}/data",
         PathBuf::from(env!("CARGO_MANIFEST_DIR")).to_str().unwrap()
     );
     let path = format!("{}/wasm/cellgen_wasm_udf_examples.wasm", root_path);
@@ -51,7 +51,7 @@ async fn test_wasm_arrow_scalar_udf_runner() {
     let expected_concat_result_batch = create_concat_expect_data();
 
     let root_path = format!(
-        "{}/../../data",
+        "{}/data",
         PathBuf::from(env!("CARGO_MANIFEST_DIR")).to_str().unwrap()
     );
 
