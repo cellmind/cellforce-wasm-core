@@ -1,0 +1,21 @@
+[package]
+name = "cellgen-wasm-core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+tokio = { version = "1.28.0", features = ["macros", "rt-multi-thread"] }
+tracing = "0.1"
+serde = "1.0.155"
+serde_json = "1.0.94"
+anyhow = "1.0.71"
+itertools = "0.11.0"
+thiserror = "2.0.7"
+wasmtime = "9.0.2"
+wasmtime-wasi = "9.0.2"
+arrow = {version = "53.2.0", features = ["ffi", "prettyprint"] }
+arrow-array = { version = "53.2.0", features = ["ffi"] }
+arrow-ipc = { version = "53.2.0", features = ["zstd"] }
+arrow-schema = { version = "53.2.0", default-features = false }
+
