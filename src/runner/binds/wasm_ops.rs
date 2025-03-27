@@ -30,7 +30,7 @@ pub fn wrapper_wasm_allocate(
 
     // get the function
     let func_def = instance
-        .get_func(&mut store, "_cellgen_malloc")
+        .get_func(&mut store, "_cellforce_malloc")
         .expect("`wasm_allocate` was not an exported function");
     // validate that it corresponds to the parameters and return types we need
     let func_validated = func_def.typed::<u32, u32>(&store).unwrap();
@@ -50,7 +50,7 @@ pub fn wrapper_wasm_deallocate(
 ) -> Result<i32, WasmError> {
     // get the function
     let func_def = instance
-        .get_func(&mut store, "_cellgen_free")
+        .get_func(&mut store, "_cellforce_free")
         .expect("`wasm_deallocate` was not an exported function");
     // validate that it corresponds to the parameters and return types we need
     let func_validated = func_def.typed::<u32, ()>(&store).unwrap();

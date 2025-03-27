@@ -1,2 +1,2 @@
-# cellgen-wasm-core
+# cellforce-wasm-core
 
