@@ -12,8 +12,9 @@ serde_json = "1.0.94"
 anyhow = "1.0.71"
 itertools = "0.11.0"
 thiserror = "2.0.7"
-wasmtime = "9.0.2"
-wasmtime-wasi = "9.0.2"
+wasmtime = "31.0.0"
+wasmtime-wasi = { version = "31.0.0"}
+wasi-common = { version = "31.0.0" }
 arrow = {version = "54.3.0", features = ["ffi", "prettyprint"] }
 arrow-array = { version = "54.3.0", features = ["ffi"] }
 arrow-ipc = { version = "54.3.0", features = ["zstd"] }

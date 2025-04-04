@@ -6,7 +6,6 @@ use arrow::record_batch::RecordBatch;
 use itertools::Itertools;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
-use tracing::log::Record;
 use cellforce_wasm_core::runner::runner_base::WasmUdfRunner;
 use cellforce_wasm_core::runner::scalar_udf_runner::{WasmArrowScalarUdfRunner, WasmScalarUdfRunner};
 

@@ -7,8 +7,10 @@ use wasmtime::*;
 use wasmtime::{AsContextMut, TypedFunc};
 use wasmtime::{Caller, Instance};
 use wasmtime::{Engine, Val};
-use wasmtime::{Extern, Func, Linker};
-use wasmtime_wasi::{sync::WasiCtxBuilder, WasiCtx};
+use wasmtime::{Extern, Func};
+use wasmtime::Linker;
+use wasmtime_wasi::{WasiCtx};
+use wasi_common::sync::WasiCtxBuilder;
 
 use arrow::array::{Float32Array, Int64Array, StringBuilder};
 use std::ffi::CString;
@@ -28,7 +30,7 @@ use arrow::ipc::writer::StreamWriter;
 use arrow::record_batch::RecordBatch;
 use arrow::util::pretty::print_batches;
 use crate::errors::WasmError;
-use crate::runner::binds::wasm_ops::{WasmState, wrapper_wasm_allocate};
+use crate::runner::binds::wasm_ops::{wrapper_wasm_allocate};
 use crate::runner::runner_base::WasmUdfRunner;
 
 pub struct WasmArrowScalarUdfRunner {
@@ -76,13 +78,13 @@ impl WasmArrowScalarUdfRunner {
 
 impl WasmUdfRunner for WasmArrowScalarUdfRunner {
     fn run(&self, batch: &RecordBatch) -> Result<RecordBatch, WasmError> {
-        let mut linker = Linker::<WasmState>::new(&self.engine);
-        wasmtime_wasi::add_to_linker(&mut linker, |state: &mut WasmState| &mut state.wasi).unwrap();
+        let mut linker = Linker::new(&self.engine);
+        wasi_common::sync::add_to_linker(&mut linker, |s| s).unwrap();
         let wasi = WasiCtxBuilder::new()
             .inherit_stdio()
             .inherit_args().unwrap()
             .build();
-        let mut store = Store::new(&self.engine, WasmState { wasi: wasi });
+        let mut store = Store::new(&self.engine, wasi);
 
 
         linker.module(&mut store, "", &self.module).unwrap();
@@ -229,13 +231,13 @@ impl WasmScalarUdfRunner {
 
 impl WasmUdfRunner for WasmScalarUdfRunner {
     fn run(&self, batch: &RecordBatch) -> Result<RecordBatch, WasmError> {
-        let mut linker = Linker::<WasmState>::new(&self.engine);
-        wasmtime_wasi::add_to_linker(&mut linker, |state: &mut WasmState| &mut state.wasi).unwrap();
+        let mut linker = Linker::new(&self.engine);
+        wasi_common::sync::add_to_linker(&mut linker, |s| s).unwrap();
         let wasi = WasiCtxBuilder::new()
             .inherit_stdio()
             .inherit_args().unwrap()
             .build();
-        let mut store = Store::new(&self.engine, WasmState { wasi: wasi });
+        let mut store = Store::new(&self.engine, wasi);
 
         linker.module(&mut store, "", &self.module).unwrap();
         let instance: Instance = linker
